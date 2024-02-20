@@ -1,11 +1,11 @@
-import { StatusBar } from "react-native";
 import Groups from "@screens/Groups";
+import { ThemeProvider } from "styled-components";
+import theme from "./src/theme";
 
 export default function App() {
   return (
-    <>
-      <StatusBar style="auto" />
+    <ThemeProvider theme={theme}>
       <Groups />
-    </>
+    </ThemeProvider>
   );
 }
