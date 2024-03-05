@@ -16,12 +16,15 @@ import { playersGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTea
 import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
 import { groupRemoveByName } from "@storage/group/groupRemoveByName";
+import { Loading } from "@components/Loading";
 
 type RouteParams = {
   group: string;
 };
 
 export default function Players() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [newPlayerName, setNewPlayerName] = useState("");
   const [team, setTeam] = useState("TIME A");
   const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
@@ -54,11 +57,15 @@ export default function Players() {
 
   async function fetchPlayersByTeam() {
     try {
+      setIsLoading(true);
+
       const fetchedPlayers = await playersGetByGroupAndTeam(group, team);
       setPlayers(fetchedPlayers);
     } catch (error) {
       console.log(error);
       Alert.alert("Error fetching players");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -120,18 +127,22 @@ export default function Players() {
       </Form>
 
       <HeaderList>
-        <FlatList
-          data={["TIME A", "TIME B", "TIME C"]}
-          keyExtractor={(item) => item}
-          horizontal
-          renderItem={({ item }) => (
-            <Filter
-              title={item}
-              isActive={item === team}
-              onPress={() => setTeam(item)}
-            />
-          )}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={["TIME A", "TIME B", "TIME C"]}
+            keyExtractor={(item) => item}
+            horizontal
+            renderItem={({ item }) => (
+              <Filter
+                title={item}
+                isActive={item === team}
+                onPress={() => setTeam(item)}
+              />
+            )}
+          />
+        )}
 
         <NumbersOfPlayers>{players.length}</NumbersOfPlayers>
       </HeaderList>
