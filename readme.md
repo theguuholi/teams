@@ -4,3 +4,7 @@ https://styled-components.com/
 <!-- >  npx expo install react-native-web@~0.18.7 react-dom@18.0.0 @expo/webpack-config@^0.17.0 -->
 > npx expo install react-dom
 ❯ npm install styled-components
+
+https://fonts.google.com
+
+❯ npx expo install expo-font @expo-google-fonts/roboto
