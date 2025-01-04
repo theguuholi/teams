@@ -17,6 +17,7 @@ export default function Groups() {
             <FlatList
                 data={groups}
                 keyExtractor={item => item}
+                contentContainerStyle={groups.length === 0 && { flex: 1 }}
                 renderItem={({ item }) => <GroupCard title={item} />}
                 ListEmptyComponent={<ListEmpty message="No groups found" />}
             />
