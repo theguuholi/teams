@@ -4,9 +4,10 @@ import Highlight from '@components/Higlight';
 import GroupCard from '@components/GroupCard';
 import { useState } from 'react';
 import { FlatList } from 'react-native';
+import ListEmpty from '@components/ListEmpty';
 
 export default function Groups() {
-    const [groups, setGroups] = useState<string[]>(['elixir']);
+    const [groups, setGroups] = useState<string[]>([]);
 
     return (
         <Container>
@@ -17,6 +18,7 @@ export default function Groups() {
                 data={groups}
                 keyExtractor={item => item}
                 renderItem={({ item }) => <GroupCard title={item} />}
+                ListEmptyComponent={<ListEmpty message="No groups found" />}
             />
         </Container>
     );
