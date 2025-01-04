@@ -8,3 +8,9 @@ https://styled-components.com/
 https://fonts.google.com
 
 ❯ npx expo install expo-font @expo-google-fonts/roboto
+
+
+https://phosphoricons.com
+
+https://docs.expo.dev/versions/latest/sdk/svg/
+npx expo install react-native-svg
