@@ -18,7 +18,9 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.5",
     "styled-components": "^6.1.13",
-    "react-native-svg": "15.8.0"
+    "react-native-svg": "15.8.0",
+    "react-native-web": "~0.19.13",
+    "@expo/metro-runtime": "~4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
