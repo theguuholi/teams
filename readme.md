@@ -14,3 +14,8 @@ https://phosphoricons.com
 
 https://docs.expo.dev/versions/latest/sdk/svg/
 npx expo install react-native-svg
+
+❯ npm install @react-navigation/native    
+
+❯ expo install react-native-screens react-native-safe-area-context
+❯ npx install @ract-navigation/native-stack
