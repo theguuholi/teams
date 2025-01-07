@@ -19,3 +19,5 @@ npx expo install react-native-svg
 
 ❯ expo install react-native-screens react-native-safe-area-context
 ❯ npx install @ract-navigation/native-stack
+
+❯ npx expo install @react-native-async-storage/async-storage
