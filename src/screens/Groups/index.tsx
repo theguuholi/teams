@@ -6,9 +6,14 @@ import { useState } from 'react';
 import ListEmpty from '@components/ListEmpty';
 import Button from '@components/Button';
 import { FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Groups() {
     const [groups, setGroups] = useState<string[]>([]);
+    const navigation = useNavigation();
+    const handleNewGroup = () => {
+        navigation.navigate('players', {group: 'gus'});
+    };
 
     return (
         <Container>
@@ -22,7 +27,9 @@ export default function Groups() {
                 renderItem={({ item }) => <GroupCard title={item} />}
                 ListEmptyComponent={<ListEmpty message="No groups found" />}
             />
-            <Button title='Create a new Team' />
+            <Button title='Create a new Team'
+                onPress={handleNewGroup}
+            />
         </Container>
     );
 }
