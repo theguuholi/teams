@@ -9,19 +9,26 @@ import { FlatList } from 'react-native';
 import { useState } from 'react';
 import PlayerCard from '@components/PlayerCard';
 import ListEmpty from '@components/ListEmpty';
+import { useRoute } from '@react-navigation/native';
+
+type RouteParams = { group: string; }
 
 const Players = () => {
 
     const [team, setTeam] = useState<string>('Team A');
     const [players, setPlayers] = useState<string[]>([]);
+    const route = useRoute();
+    const { group } = route.params as RouteParams;
 
     return (
         <Container>
             <Header showBackButton />
-            <Highlight title="Team Name" subtitle="Add people to split the team" />
+            <Highlight title={group} subtitle="Add people to split the team" />
 
             <Form>
-                <Input placeholder='Player Name' autoCorrect={false} />
+                <Input placeholder='Player Name' autoCorrect={false}
+
+                />
                 <ButtonIcon icon="add" />
             </Form>
 
@@ -39,9 +46,9 @@ const Players = () => {
                 data={players}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item}
-                contentContainerStyle={[{paddingBottom: 100}, players.length === 0 && { flex: 1 }]}
+                contentContainerStyle={[{ paddingBottom: 100 }, players.length === 0 && { flex: 1 }]}
                 ListEmptyComponent={<ListEmpty message="No players found" />}
-                renderItem={({ item }) => <PlayerCard name={item} onRemove={() => {}} />}
+                renderItem={({ item }) => <PlayerCard name={item} onRemove={() => { }} />}
             />
 
             <Button title="Remove team" type='SECONDARY' />

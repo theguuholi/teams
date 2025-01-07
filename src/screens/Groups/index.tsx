@@ -12,7 +12,7 @@ export default function Groups() {
     const [groups, setGroups] = useState<string[]>([]);
     const navigation = useNavigation();
     const handleNewGroup = () => {
-        navigation.navigate('players', {group: 'gus'});
+        navigation.navigate('new');
     };
 
     return (
