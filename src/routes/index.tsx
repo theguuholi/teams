@@ -3,7 +3,10 @@ import AppRoutes from "./app.routes";
 import { View } from "react-native";
 import { useTheme } from "styled-components";
 
-
+// Prop Drilling
+// hierarquia sobre contextAPI 
+// ContextAPI sobre prop drilling
+// aumenta a complexidade do código
 const Routes = () => {
     const { COLORS } = useTheme();
     return (
