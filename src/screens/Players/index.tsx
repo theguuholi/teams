@@ -9,10 +9,11 @@ import { Alert, FlatList, Keyboard, TextInput } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import PlayerCard from '@components/PlayerCard';
 import ListEmpty from '@components/ListEmpty';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 import { playerAddByGroupAndTeam } from '@storage/player/playerGetByGroupAndTeam';
 import { PlayerStorageDTO } from '@storage/player/PlayerStorageDTO';
+import { removeByGroup } from '@storage/player/removeByGroup';
 
 type RouteParams = { group: string; }
 
@@ -24,6 +25,7 @@ const Players = () => {
     const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
     const route = useRoute();
     const { group } = route.params as RouteParams;
+    const navigation = useNavigation();
 
     const handleAddPlayer = async () => {
         if (newPlayer.trim() === '') {
@@ -55,6 +57,45 @@ const Players = () => {
         } catch (error) {
             console.error(error);
             Alert.alert('Error on fetch players');
+        }
+    }
+
+    const handleRemovePlayer = async (name: string) => {
+        try {
+            await removeByGroup(name, group);
+            fetchPlayersByTeam();
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error on remove player');
+        }
+    }
+
+    const groupRemove = async () => {
+        try {
+            await removeByGroup(group, group);
+            navigation.navigate('groups');
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error on remove group');
+        }
+    }
+
+    const handleGroupeRemove = async () => {
+        try {
+            await removeByGroup(group, group);
+            Alert.alert("Remove", "Do you want to remove this group?", [
+                {
+                    text: 'No',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => groupRemove()
+                }
+            ]);
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error on remove group');
         }
     }
 
@@ -94,10 +135,10 @@ const Players = () => {
                 keyExtractor={item => item.name}
                 contentContainerStyle={[{ paddingBottom: 100 }, players.length === 0 && { flex: 1 }]}
                 ListEmptyComponent={<ListEmpty message="No players found" />}
-                renderItem={({ item }) => <PlayerCard name={item.name} onRemove={() => { }} />}
+                renderItem={({ item }) => <PlayerCard name={item.name} onRemove={() => handleRemovePlayer(item.name)} />}
             />
 
-            <Button title="Remove team" type='SECONDARY' />
+            <Button title="Remove team" type='SECONDARY' onPress={handleGroupeRemove} />
         </Container>
     );
 }
