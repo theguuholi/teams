@@ -5,8 +5,8 @@ import Button from '@components/Button';
 import Input from '@components/Input';
 import ButtonIcon from '@components/ButtonIcon';
 import Filter from '@components/Filter';
-import { Alert, FlatList } from 'react-native';
-import { useEffect, useState } from 'react';
+import { Alert, FlatList, Keyboard, TextInput } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 import PlayerCard from '@components/PlayerCard';
 import ListEmpty from '@components/ListEmpty';
 import { useRoute } from '@react-navigation/native';
@@ -20,6 +20,7 @@ const Players = () => {
 
     const [team, setTeam] = useState<string>('Team A');
     const [newPlayer, setNewPlayer] = useState<string>('');
+    const newPlayerNameInputRef = useRef<TextInput>(null);
     const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
     const route = useRoute();
     const { group } = route.params as RouteParams;
@@ -36,11 +37,13 @@ const Players = () => {
 
         try {
             await playerAddByGroup(player, group);
+            newPlayerNameInputRef.current?.blur();
+            Keyboard.dismiss();
+            setNewPlayer('');
             fetchPlayersByTeam();
         } catch (error) {
             console.error(error);
             Alert.alert('Error on add player');
-
         }
 
     }
@@ -66,10 +69,13 @@ const Players = () => {
 
             <Form>
                 <Input placeholder='Player Name' autoCorrect={false}
+                    inputRef={newPlayerNameInputRef}
                     onChangeText={setNewPlayer}
-
+                    value={newPlayer}
+                    onSubmitEditing={handleAddPlayer}
+                    returnKeyType='done'
                 />
-                <ButtonIcon icon="add" />
+                <ButtonIcon icon="add" onPress={handleAddPlayer} />
             </Form>
 
             <HeaderList>
