@@ -6,6 +6,8 @@ import Input from '@components/Input';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { groupCreate } from '@storage/group/groupCreate';
+import { AppError } from '@utils/AppError';
+import { Alert } from 'react-native';
 
 const NewGroup = () => {
 
@@ -13,12 +15,20 @@ const NewGroup = () => {
     const [group, setGroup] = useState<string>('');
 
     const handleNew = async () => {
-
         try {
+            if(group.trim() === '') {
+                return Alert.alert('Error', 'Group name is required');
+            }
+            
             await groupCreate(group);
             navigation.navigate('players', { group: group });
         } catch (error) {
-            console.error(error);
+            if (error instanceof AppError) {
+                Alert.alert('Error', error.message);
+            } else {
+                Alert.alert('Error', 'An error occurred');
+                console.error(error);
+            }
         }
     }
 
