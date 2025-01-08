@@ -2,11 +2,11 @@ import Header from '@components/Header';
 import { Container } from './styles';
 import Highlight from '@components/Higlight';
 import GroupCard from '@components/GroupCard';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ListEmpty from '@components/ListEmpty';
 import Button from '@components/Button';
 import { FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getAll } from '@storage/group/getAll';
 
 export default function Groups() {
@@ -25,16 +25,21 @@ export default function Groups() {
         }
     }
 
-    useEffect(() => {
-        //o que executar quando o componente for montado
-        // quando vai executar depois de montado
-        //array vazio executa uma vez
-        // se passar uma variavel ele executa toda vez que a variavel mudar
-        console.log('useEffect executed');
+    useFocusEffect(useCallback(() => {
+        console.log('useFocusEffect executed');
         fetchGroups();
-    }, [
-        //variaveis que se mudarem o useEffect vai execut
-    ]);
+    }, []));
+
+    // useEffect(() => {
+    //     //o que executar quando o componente for montado
+    //     // quando vai executar depois de montado
+    //     //array vazio executa uma vez
+    //     // se passar uma variavel ele executa toda vez que a variavel mudar
+    //     console.log('useEffect executed');
+    //     fetchGroups();
+    // }, [
+    //     //variaveis que se mudarem o useEffect vai execut
+    // ]);
 
     return (
         <Container>
