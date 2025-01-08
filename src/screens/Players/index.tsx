@@ -5,20 +5,42 @@ import Button from '@components/Button';
 import Input from '@components/Input';
 import ButtonIcon from '@components/ButtonIcon';
 import Filter from '@components/Filter';
-import { FlatList } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { useState } from 'react';
 import PlayerCard from '@components/PlayerCard';
 import ListEmpty from '@components/ListEmpty';
 import { useRoute } from '@react-navigation/native';
+import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 
 type RouteParams = { group: string; }
 
 const Players = () => {
 
     const [team, setTeam] = useState<string>('Team A');
+    const [newPlayer, setNewPlayer] = useState<string>('');
     const [players, setPlayers] = useState<string[]>([]);
     const route = useRoute();
     const { group } = route.params as RouteParams;
+
+    const handleAddPlayer = async () => {
+        if (newPlayer.trim() === '') {
+            return Alert.alert('Please, inform the player name');
+        }
+
+        const player = {
+            name: newPlayer,
+            group: group
+        }
+
+        try {
+            await playerAddByGroup(player, group);
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error on add player');
+            
+        }
+
+    }
 
     return (
         <Container>
@@ -27,6 +49,7 @@ const Players = () => {
 
             <Form>
                 <Input placeholder='Player Name' autoCorrect={false}
+                    onChangeText={setNewPlayer}
 
                 />
                 <ButtonIcon icon="add" />
